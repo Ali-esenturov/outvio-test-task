@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  node:
+    restart: always
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/app
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    networks:
+      - node-mongo-network
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - ~/mongodb:/data/db
+    networks:
+      - node-mongo-network
+
+networks:
+  node-mongo-network:
+    driver: bridge
